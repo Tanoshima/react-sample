@@ -1,1 +1,1 @@
-数値のみの入力を許す type: text の input
+数値のみの入力を許す input (type: text)
