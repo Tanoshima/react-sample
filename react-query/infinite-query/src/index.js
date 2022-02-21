@@ -1,24 +1,40 @@
-import React, { useState } from "react";
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React from "react";
 import ReactDOM from "react-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+import usePosts from "./hooks/usePosts";
+
+const queryClient = new QueryClient();
 
 export default function App() {
-  const [state, setState] = useState("");
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Example />
+    </QueryClientProvider>
+  );
+}
 
-  const numberChange = (e) => {
-    return e.target.value
-      .replace(/[０-９]/g, function (s) {
-        return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
-      })
-      .replace(/[^\d]+/g, "");
-  };
+function Example() {
+  const { isLoading, error, data } = usePosts();
 
   return (
-    <input
-      type="text"
-      id="input_number"
-      value={state}
-      onChange={(e) => setState(numberChange(e))}
-    />
+    <>
+      {isLoading ? (
+        "Loading..."
+      ) : error ? (
+        "An error has occurred: " + error.message
+      ) : (
+        <div>
+          <ul>
+            {data.map((post) => (
+              <li key={post.id}>{post.id}</li>
+            ))}
+          </ul>
+          <ReactQueryDevtools initialIsOpen />
+        </div>
+      )}
+    </>
   );
 }
 
