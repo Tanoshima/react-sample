@@ -3,7 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-import usePosts from "./hooks/usePosts";
+import usePostsInfinite from "./hooks/usePostsInfinite";
 
 const queryClient = new QueryClient();
 
@@ -16,7 +16,9 @@ export default function App() {
 }
 
 function Example() {
-  const { isLoading, error, data } = usePosts();
+  const {
+    data, error, fetchNextPage, hasNextPage, isFetchingNextPage
+  } = usePostsInfinite();
 
   return (
     <>
@@ -27,10 +29,27 @@ function Example() {
       ) : (
         <div>
           <ul>
-            {data.map((post) => (
-              <li key={post.id}>{post.id}</li>
+            {data.pages.map((group, i) => (
+              <React.Fragment key={i}>
+                {group.posts.map(post => (
+                  <li key={post.id}>{post.id}</li>
+                ))}
+              </React.Fragment>
             ))}
           </ul>
+          <div>
+            <button
+              onClick={() => fetchNextPage()} 
+              disabled={!hasNextPage || isFetchingNextPage}
+            >
+              {isFetchingNextPage
+                ? "Loading more..."
+                : hasNextPage
+                ? "Load more"
+                : "Nothing more to load"
+              }
+            </button>
+          </div>
           <ReactQueryDevtools initialIsOpen />
         </div>
       )}
