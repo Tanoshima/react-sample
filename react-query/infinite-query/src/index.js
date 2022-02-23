@@ -17,7 +17,7 @@ export default function App() {
 
 function Example() {
   const {
-    data, error, fetchNextPage, hasNextPage, isFetchingNextPage
+    isLoading, data, error, fetchNextPage, hasNextPage, isFetchingNextPage
   } = usePostsInfinite();
 
   return (
