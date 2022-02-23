@@ -29,12 +29,8 @@ function Example() {
       ) : (
         <div>
           <ul>
-            {data.pages.map((group, i) => (
-              <React.Fragment key={i}>
-                {group.posts.map(post => (
-                  <li key={post.id}>{post.id}</li>
-                ))}
-              </React.Fragment>
+            {data.pages.map((post, i) => (
+              <li key={post.id}>{post.id}</li>
             ))}
           </ul>
           <div>

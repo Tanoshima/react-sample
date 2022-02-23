@@ -10,6 +10,6 @@ const getPosts = async ({ pageParam = 0 }) => {
 
 export default function usePosts() {
   return useInfiniteQuery('posts', getPosts, {
-    getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
+    getNextPageParam: (lastPage, pages) => lastPage.id + 1,
   })
 }
