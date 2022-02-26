@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-import usePostsInfinite from "./hooks/usePostsInfinite";
+import usePosts from "./hooks/usePosts";
 
 const queryClient = new QueryClient();
 
@@ -15,9 +15,7 @@ export default function App() {
 }
 
 function Example() {
-  const {
-    isLoading, data, error, fetchNextPage, hasNextPage, isFetchingNextPage
-  } = usePostsInfinite();
+  const { isLoading, error, data } = usePosts();
 
   return (
     <>
@@ -28,23 +26,10 @@ function Example() {
       ) : (
         <div>
           <ul>
-            {data.pages.map((post, i) => (
+            {data.map((post) => (
               <li key={post.id}>{post.id}</li>
             ))}
           </ul>
-          <div>
-            <button
-              onClick={() => fetchNextPage()} 
-              disabled={!hasNextPage || isFetchingNextPage}
-            >
-              {isFetchingNextPage
-                ? "Loading more..."
-                : hasNextPage
-                ? "Load more"
-                : "Nothing more to load"
-              }
-            </button>
-          </div>
           <ReactQueryDevtools initialIsOpen />
         </div>
       )}
