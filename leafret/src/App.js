@@ -1,5 +1,16 @@
 import "leaflet/dist/leaflet.css";
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
+// add icons
+import Leaflet from "leaflet";
+import icon from "leaflet/dist/images/marker-icon.png";
+import iconShadow from "leaflet/dist/images/marker-shadow.png";
+
+// marker setting
+const DefaultIcon = Leaflet.icon({
+  iconUrl: icon,
+  shadowUrl: iconShadow,
+});
+Leaflet.Marker.prototype.options.icon = DefaultIcon;
 
 const position = [35.3622222, 138.7313889]
 
